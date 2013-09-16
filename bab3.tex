@@ -140,6 +140,32 @@ menjadi:
 
 Pemenuhan pagu sebenarnya adalah proses perangkingan kembali tetapi dengan
 memasukkan beberapa kriteria seperti yang sudah dijelaskan di atas. Hanya
-pilihan yang sesuai dengan kriteria yang dilakukan proses perangkingan. 
+pilihan yang sesuai dengan kriteria yang akan dilakukan proses perangkingan.
+Hasil seleksi perangkingan sebelumnya setelah dikurangi calon peserta didik
+yang tidak daftar ulang (disediakan aplikasi untuk ceklist daftar ulang) akan
+diolah lagi. Jadi bagi calon peserta didik baru yang tidak daftar ulang, tidak
+akan diproses dalam pemenuhan pagu.
 
-% section algoritma_pengisian_bangku_kosong
+Hal yang membedakan dengan perangkingan sebelumnya adalah urutan pilihan yang
+bersifat \f{decreement}. Pilihan akan diseleksi dimulai dari pilihan terbesar,
+khusus untuk calon peserta didik baru yang diterima di pilihan pertama tidak
+perlu diproses. Proses pemenuhan pagu juga melibatkan calon peserta didik baru
+yang sama sekali tidak diterima. Jadi secara sederhana pemenuhan pagu adalah
+proses perangkingan dengan  urutan pilihan terbalik dan mengabaikan calon
+peserta didik yang diterima di pilihan pertama.
+
+Akan tetapi algoritma ini masih belum sempurna, ada beberapa kondisi yang masih
+belum dapat ditangani. Beberapa kendala tersebut adalah:
+
+\begin{enumerate} [noitemsep, nolistsep]
+  \item Belum dapat menangani kondisi \f{grade} sekolah yang sama dalam satu
+    subrayon.
+  \item Calon peserta didik yang sama sekali tidak diterima pada seleksi
+    sebelumnya, ada kemungkinan diterima bukan pada prioritas pilihannya.
+    Khusus kriteria ini sebaiknya tidak menggunakan algoritma perangkingan
+    pilihan terbaik.
+  \item Belum dapat menangani calon peserta didik baru yang berstatus
+    rekomendasi dalam kota maupun luar kota.
+\end{enumerate}
+
+% section algoritma_pemenuhan_pagu
