@@ -1,0 +1,100 @@
+\chapter{\babDua}
+\section{\Database}
+\label{sec:database}
+
+\Database~yang digunakan dalam sistem PPDB Surabaya 2013 adalah sistem basis
+data \f{open source}, yaitu: MySQL Server. Sedangkan versi \database~yang
+digunakan adalah:
+
+\begin{enumerate}[noitemsep, nolistsep]
+  \item \mysql~5.1.69 (pada sisi \master) dengan menggunakan distro CentOS 6.4.
+  \item \mysql~5.1.49.3 (pada sisi \slave) dengan menggunakan distro Debian 6.
+\end{enumerate}
+
+% section database (end)
+
+\section{Desain ERD \Database}
+\label{sec:desain_erd}
+
+Pada bagian ini akan dipaparkan mengenai desain ERD (\f{Entity Relathionship
+Diagram}) \database. Desain diagram tidak akan ditampilkan secara lengkap,
+tetapi hanya beberapa tabel utama. Untuk desain diagram selengkapnya dapat
+dilihat pada berkas \f{diagram.mwb} (dalam bentuk format MySQL Workbench).
+Tabel utama itu antara lain:
+
+\begin{enumerate}[noitemsep, nolistsep]
+  \item Tabel yang menyimpan data \master~dari siswa.
+  \item Tabel yang menyimpan data pendaftaran dari siswa, dalam hal ini dibagi
+    lagi menjadi pendaftaran jalur sekolah kawasan dan pendaftaran jalur umum.
+  \item Tabel yang menyimpan hasil seleksi pendaftaran.
+\end{enumerate}
+
+
+% section desain_erd (end)
+
+\section{Topologi \Database}
+\label{sec:topologi_database}
+
+Topologi \database~bersifat bertingkat dan menggunakan sistem replikasi dari
+sisi \master~ke sisi \slave, lebih jelas mengenai topologi dapat dilihat pada
+Gambar~\ref{fig:topologi}. Data dari \master~akan direplikasi oleh \slave,
+sehingga keduanya menjadi identik. Pada umumnya pada sisi \master~hanya
+mempunyai akses \W, sedangkan pada sisi \slave~hanya mempunyai akses \R. Pada
+\bo{Master 1} dan \bo{Master 2}, selain menjadi \master~juga bertindak sebagai
+\slave~(\master-\slave). Data yang masuk pada \bo{Master 1} akan disinkronisasi
+dengan \bo{Master 2} begitupun sebaliknya.  Antara \master~dan \slave, tidak
+selalu dalam satu jaringan atau subnet. Untuk menangani beban jaringan pada
+kondisi \master~dan \slave~yang berbeda jaringan, dibutuhkan sejenis penghubung
+antar keduanya. Penghubung (\bo{Bridge 1} dan \bo{Bridge 2}) ini bersifat
+\master-\slave, bertindak sebagai \slave~dari level di atasnya dan sebagai
+\master~bagi level di bawahnya.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[font=\footnotesize, node distance=2em, auto]
+    \node[block] (master1) {Master 1};
+    \node[block, right=6em of master1] (master2) {Master 2};
+    \node[cloud, below of=master1] (bridge1) {Bridge 1};
+    \node[cloud, below of=master2] (bridge2) {Bridge 2};
+    \node[cloud, below of=bridge1] (slave12) {Slave 2};
+    \node[cloud, left=0.5em of slave12] (slave11) {Slave 1};
+    \node[cloud, right=0.5em of slave12] (slave13) {Slave 3};
+    \node[cloud, below of=bridge2] (slave22) {Slave 2};
+    \node[cloud, left=0.5em of slave22] (slave21) {Slave 1};
+    \node[cloud, right=0.5em of slave22] (slave23) {Slave 3};
+
+    \path[arrow] (master1) -- (master2);
+    \path[arrow] (master2) -- (master1);
+    \path[arrow] (master1) -- (bridge1);
+    \path[arrow] (master2) -- (bridge2);
+    \path[arrow] (bridge1) -- (slave11);
+    \path[arrow] (bridge1) -- (slave12);
+    \path[arrow] (bridge1) -- (slave13);
+    \path[arrow] (bridge2) -- (slave21);
+    \path[arrow] (bridge2) -- (slave22);
+    \path[arrow] (bridge2) -- (slave23);
+  \end{tikzpicture}
+  \caption{Topologi \database~secara garis besar}
+  \label{fig:topologi}
+\end{figure}
+
+% section topologi_database (end)
+
+\section{Pengolahan Data}
+\label{sec:pengolahan_data}
+
+Pengolahan data menjadi faktor utama dalam proses bisnis sistem PPDB Realtime
+ini. Kesalahan pengolahan akan menyebabkan informasi menjadi invalid. Dalam
+pengolahan data ini, dibutuhkan adanya kakas bantu untuk memudahkan proses ini.
+Beberapa kakas bantu yang digunakan oleh penulis yaitu:
+
+\begin{enumerate} [noitemsep, nolistsep]
+  \item Libreoffice Calc, kakas bantu ini digunakan untuk membuka berkas \master,
+    maupun data yang akan di-\import ke \database~(.mdf,~.xls,.csv) dan mengolah 
+    data.
+  \item Vim, kakas bantu ini digunakan untuk mengolah data dan membuat \script.
+  \item Beberapa CLI dari linux: mysql, scp, ssh dan lain-lain.
+\end{enumerate}
+
+
+% section pengolahan_data (end)

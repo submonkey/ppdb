@@ -1,0 +1,145 @@
+\chapter{\babTiga}
+\section{Perangkingan}
+\label{sec:perangkingan}
+
+Proses bisnis yang utama dalam sistem PPDB \f{online} adalah pendaftaran dan
+perangkingan. Tetapi dalam bab ini hanya akan dibahas mengenai proses
+perangkingan.  Hasil perangkingan ini akan menentukan peserta didik diterima
+atau tidak sesuai dengan pilihan sekolahnya. Pada setiap jenjang (SMP, SMA dan
+SMK), mempunyai ketentuan yang berbeda-beda baik untuk pilihan maupun
+perangkingan. Secara lebih jelas, hal ini dapat dilihat pada
+Tabel~\ref{tab:kawasan} dan Tabel~\ref{tab:umum}.
+
+\begin{table}
+\centering 
+\caption{Jalur sekolah kawasan (PPDB 2013)}
+\label{tab:kawasan}
+\begin{tabular} {l p{10cm}}
+  \hline
+  \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Ketentuan} \\
+  \hline
+  \hline
+
+  1. & Calon peserta didik dapat memilih satu pilihan sesuai wilayah sekolah
+  asal dan satu sekolah di dalam atau di luar wilayah sekolah asal, dengan
+  urutan pilihan sekolah secara bebas. \\
+  2. & Perangkingan menggunakan nilai Total (40\% nilai UN dan 60\% nilai TPA). \\
+  3. & Terdapat persyaratan nilai UN minimal. \\
+  4. & Prioritas apabila terjadi kesamaan nilai Total adalah nilai Bahasa
+  Indonesia, Matematika, IPA dan Bahasa Inggris (khusus untuk SMA) selanjutnya
+  waktu pendaftaran. \\
+
+  \hline  
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\caption{Jalur umum (PPDB 2013)}
+\label{tab:umum}
+\begin{tabular} {l p{10cm}}
+  \hline
+  \multicolumn{1}{c}{No.} & \multicolumn{1}{c}{Ketentuan} \\
+  \hline
+  \hline
+  1. & Calon peserta didik SMP atau SMA dapat memilih sekolah pada satu subrayon dalam
+  wilayah dan satu sekolah di luar subrayon, dengan urutan pilihan sekolah
+  secara bebas. \\
+  2. & Calon peserta didik SMK dapat memilih satu SMKN dengan pilihan dua kompetensi keahlian. \\
+  3. & Prioritas apabila terjadi kesamaan nilai UN adalah Bahasa Indonesia,
+  Matematika, IPA, Bahasa Inggris (khusus SMA \& SMK), subrayon kemudian
+  wilayah (khusus SMP \& SMA) selanjutnya waktu pendaftaran. \\
+  \hline
+\end{tabular}
+\end{table}
+
+Pada PPDB 2013 ini terdapat tiga jenis jalur penerimaan peserta didik, yaitu
+jalur penerimaan \f{offline} (prestasi, mitra warga dan satu lokasi), jalur
+sekolah kawasan dan jalur umum. Setiap jalur ini mempunyai prioritas
+perangkingan yang berbeda, dalam bab ini hanya akan dibahas mengenai
+perangkingan sekolah kawasan dan jalur umum. Untuk jalur penerimaan
+\f{offline}, perangkingan masih bersifat sederhana dan dapat dilakukan secara
+manual.
+
+Selain ada pembagian jalur penerimaan, terdapat juga pembagian kategori peserta
+didik (lihat Tabel~\ref{tab:kategori}). Kategorisasi peserta didik ini
+berpengaruh pada penentuan kuota minimum.  Secara sederhana, pagu untuk tiap
+sekolah dibagi menjadi tiga jenis, yaitu: pagu umum, pagu rekomendasi dalam
+kota dan pagu rekomendasi luar kota. Khusus untuk pagu umum, tidak ada batasan
+kuota 1\%.
+
+\begin{table}
+\centering 
+\caption{Kategori peserta didik}
+\label{tab:kategori}
+\begin{tabular} {c c l}
+  \hline
+  Status KK & Status Tamatan & \multicolumn{1}{c}{Kategori} \\
+  \hline
+  \hline
+  DK & DK & Dalam Kota \\
+  DK & LK & Mutasi \\
+  LK & DK & Rekomendasi Dalam Kota\textsuperscript{(*)} \\
+  LK & LK & Rekomendasi Luar Kota\textsuperscript{(*)} \\
+  \hline  
+  \multicolumn{3}{l}{\footnotesize{(*) Terkena kuota pagu maksimal 1\% dari pagu umum}} \\
+\end{tabular}
+\end{table}
+
+% section perangkingan (end)
+
+\section{Algoritma Perangkingan}
+\label{sec:algoritma_perangkingan}
+
+Dalam proses perangkingan PPDB sebenarnya tidak dilakukan pengurutan data
+secara keseluruhan. Setiap peserta didik yang mendaftar akan dilakukan proses
+formulasi nilai sesuai dengan ketentuan perangkingan berdasarkan jalur
+penerimaan. Nilai formula inilah yang kemudian dibandingkan dengan batas nilai
+terbawah dari sekolah yang menjadi pilihan. Apabila nilai formula dan pagu
+mencukupi, maka pendaftar itu akan diterima di sekolah tersebut. Jika tidak,
+maka akan beralih ke pilihan sekolah selanjutnya atau jika merupakan pilihan
+sekolah terakhir, peserta didik dinyatakan tidak diterima. Nilai formula
+bersifat \f{unique}, tidak mungkin ada peserta didik yang mempunyai nilai
+formula yang sama.
+
+Bagaimana data dapat terurut tanpa adanya proses pengurutan data secara
+menyeluruh? Hal ini dimungkinkan dikarenakan ada proses \f{order by} dari nilai
+formula yang telah diberikan kepada masing-masing pendaftar ketika ditampilkan
+pada halaman web.  Kunci dari efisiensi proses ini adalah meminimalkan proses
+\f{order} pada \database.  Secara tidak langsung, ketika data akan ditampilkan
+terjadi proses pengurutan.  Dengan metode ini proses rangking dapat
+diminimalisir, dikarenakan pengurutan data hanya terjadi saat ditampilkan pada
+halaman web.
+
+% section algoritma_perangkingan (end)
+
+\section{Pemenuhan Pagu}
+\label{sec:pemenuhan_pagu}
+
+Pemenuhan pagu adalah pagu pendaftaran yang tidak diisi oleh calon peserta
+didik baru yang dinyatakan diterima, sampai batas waktu daftar ulang yang telah
+ditetapkan. Mekanisme untuk pengisian pagu berbeda berdasarkan jenjang dan
+jalur penerimaan. Tetapi secara garis besar mekanisme ini dapat disederhanakan
+menjadi:
+
+\begin{enumerate} [noitemsep, nolistsep]
+  \item Pemenuhan pagu jalur mitra warga diambil dari calon peserta didik baru
+    dibawah passing grade yang telah ditetapkan dalam satu kecamatan.
+  \item Pemenuhan pagu jalur sekolah kawasan terbatas pada satu wilayah sekolah
+    asal dan mengabaikan pilihan di luar wilayah.
+  \item Pemenuhan pagu jalur umum terbatas pada satu subrayon sekolah dan
+    mengabaikan pilihan di luar subrayon.
+  \item Khusus untuk jenjang SMK, pemenuhan pagu terbatas pada satu sekolah
+    dikarenakan tidak ada rayonisasi.
+\end{enumerate}
+
+% section pemenuhan_pagu
+
+\section{Algoritma Pemenuhan Pagu}
+\label{sec:algoritma_pemenuhan_pagu}
+
+Pemenuhan pagu sebenarnya adalah proses perangkingan kembali tetapi dengan
+memasukkan beberapa kriteria seperti yang sudah dijelaskan di atas. Hanya
+pilihan yang sesuai dengan kriteria yang dilakukan proses perangkingan. 
+
+% section algoritma_pengisian_bangku_kosong
