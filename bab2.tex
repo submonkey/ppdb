@@ -83,18 +83,33 @@ antar keduanya. Penghubung (\bo{Bridge 1} dan \bo{Bridge 2}) ini bersifat
 \section{Pengolahan Data}
 \label{sec:pengolahan_data}
 
-Pengolahan data menjadi faktor utama dalam proses bisnis sistem PPDB Realtime
-ini. Kesalahan pengolahan akan menyebabkan informasi menjadi invalid. Dalam
-pengolahan data ini, dibutuhkan adanya kakas bantu untuk memudahkan proses ini.
-Beberapa kakas bantu yang digunakan oleh penulis yaitu:
+Pengolahan data menjadi faktor utama dalam proses bisnis sistem PPDB
+\f{Realtime} ini. Kesalahan pengolahan akan menyebabkan informasi menjadi
+\f{invalid}. Dalam pengolahan data ini, dibutuhkan adanya kakas bantu untuk
+memudahkan proses ini.  Beberapa kakas bantu yang digunakan oleh penulis yaitu:
 
 \begin{enumerate} [noitemsep, nolistsep]
-  \item Libreoffice Calc, kakas bantu ini digunakan untuk membuka berkas \master,
-    maupun data yang akan di-\import ke \database~(.mdf,~.xls,.csv) dan mengolah 
-    data.
-  \item Vim, kakas bantu ini digunakan untuk mengolah data dan membuat \script.
-  \item Beberapa CLI dari linux: mysql, scp, ssh dan lain-lain.
+    \item Libreoffice Calc, kakas bantu ini digunakan untuk membuka berkas
+        \master, maupun data yang akan di-\import ke \database~(.mdf,~.xls,.csv) dan
+        mengolah data.
+    \item Vim, kakas bantu ini digunakan untuk mengolah data dan membuat \script.
+    \item Beberapa CLI dari linux: mysql, scp, ssh dan lain-lain.
 \end{enumerate}
 
+Alasan penulis menggunakan Libreoffice Calc dibandingkan dengan Microsoft
+Office 2007, dikarenakan dukungan untuk tipedata~.mdf. Format data mentah yang
+diolah sebelum dimasukkan ke \database~adalah format FoxPro (berekstensi mdf).
+Apabila anda ingin tetap menggunakan produk dari Microsoft, penulis menyarankan
+untuk menggunakan versi Microsoft Office 2003. Dari format mdf diperlukan
+pengolahan sebelum dapat dimasukkan ke dalam \database. Untuk memudahkan
+\f{import} data ke database, digunakan format csv (\f{comma separated value}).
+Karakter pemisah data dalam csv tidak selalu karakter koma, tetapi dapat
+diganti dengan karakter lain. Dalam hal ini ada baiknya tidak menggunakan
+karakter yang sering dipakai, contohnya: '\textbar'.
+
+Dalam proses pengerjaan PPDB ini, sangat jarang berinteraksi dengan GUI
+(\f{Graphical User Interface}). Jadi ada baiknya sebelum melangkah lebih jauh
+membiasakan terlebih dahulu dengan CLI (\f{Command Line Intepreter}) dan TUI
+(\f{Text User Interface}).
 
 % section pengolahan_data (end)
